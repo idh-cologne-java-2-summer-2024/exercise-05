@@ -1,4 +1,4 @@
-Softwaretechnologie: Java 2
+Fortgeschrittene Programmierung (Java 2)
 
 # Übung 5
 
@@ -21,7 +21,7 @@ Angewendet auf den Text, würde der SkipIterator bei *n=2* also jeweils zwei Tok
 
 ### Hinweise
 
-1. Eine sicher funktionierende, aber sehr unschöne, Lösung wäre den Basisiterator vollständig laufen zu lassen, die Elemente in einem Array zu speichern, und dann einen neuen Iterator über das Array laufen zu lassen. Diese Lösung ist nicht nur unschön, sondern auch deutlich langsamer als es sein müsste, weil das Erzeugen des Arrays eigentlich nicht nötig ist. Versuchen Sie das Problem zu lösen, indem Ihr Iterator tatsächlich parallel zum Basisiterator läuft.
+1. Eine sicher funktionierende, aber sehr unschöne, Lösung wäre den Basisiterator vollständig laufen zu lassen, die Elemente in einem Array zu speichern, und dann einen neuen Iterator über das Array laufen zu lassen. Diese Lösung ist nicht nur unschön, sondern auch deutlich langsamer als es sein müsste, weil das Erzeugen des Arrays eigentlich nicht nötig ist. Versuchen Sie das Problem zu lösen, indem Ihr Iterator tatsächlich "parallel" zum Basisiterator läuft.
 
 2. Wenn Ihr SkipIterator das erste Token überspringt ist das in diesem Fall nicht schlimm (weil es whitespace ist), sollte aber natürlich im Allgemeinen nicht passieren. Sehen Sie einen Weg das zu reparieren?
 
