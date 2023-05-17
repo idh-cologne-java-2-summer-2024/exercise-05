@@ -18,7 +18,6 @@ public class MyLinkedList<T> implements List<T> {
 	
 	@Override
 	public int size() {
-		// TODO Implement!
 		int i = 0;
 		for (T x : this)
 			i++;
