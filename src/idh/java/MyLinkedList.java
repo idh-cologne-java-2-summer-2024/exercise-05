@@ -116,14 +116,18 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public void add(int index, T element) {
+    int counter = 0;
 	if(first == null) {
 		first = new ListElement(element);
 	} else {
 		ListElement current = first;
-		while (current.next != null) {
+		while (current != null) {
 			current = current.next;
+			counter++;
+			if (counter == index) {
+				current.payload = element;
+			}
 		}
-		current.next = new ListElement(element);
 	}
     }
 
