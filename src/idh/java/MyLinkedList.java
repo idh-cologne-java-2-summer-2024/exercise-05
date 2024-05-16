@@ -25,22 +25,39 @@ public class MyLinkedList<T> implements List<T> {
      */
     ListElement first;
 
-    @Override
+    @Override //zählt ánzahl der list elemente
     public int size() {
-	// TODO Implement!
-	return 0;
+    	int zaehler = 0;
+        ListElement current = first;
+        while (current != null) {
+            zaehler++;
+            current = current.next;
+        }
+        return zaehler;
     }
 
     @Override
-    public boolean contains(Object o) {
-	// TODO Implement!
-	return false;
+    public boolean contains(Object o) {//checken ob o enthalten ist
+    	ListElement current = first;
+        while (current != null) {
+            if (current.payload.equals(o)) {
+                return true;
+            }
+            current = current.next;
+       }
+        return false;
+
     }
 
     @Override
-    public boolean remove(Object o) {
-	// TODO: Implement
-	return false;
+    public boolean remove(Object o) { //entfernt o 
+    	if (first == null) return false;
+
+        if (first.payload.equals(o)) {
+               first = first.next;
+            return true;
+        }
+		return false;//sonst fehlermeldung
     }
 
     @Override
@@ -50,18 +67,21 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     @Override
-    public T set(int index, T element) {
-	// TODO: Implement
-	return null;
+    public T set(int index, T element) { //packt Element an Index und gibt oldpayload zurück
+    	ListElement target = getElement(index);
+        T oldPayload = target.payload;
+        target.payload = element;
+        return oldPayload;
+
     }
 
     @Override
-    public void add(int index, T element) {
+    public void add(int index, T element) { //an stelle index ein rlement einfügen
 	// TODO: Implement
     }
 
     @Override
-    public T remove(int index) {
+    public T remove(int index) {//löscht element an stelle index und returnt das
 	// TODO: Implement
 	return null;
     }
