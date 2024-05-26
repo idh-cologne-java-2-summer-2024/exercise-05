@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 
 public class Document implements Iterable<String> {
 	String documentText;
-
+//Aufgabe 1 schon gelöst??
 	public static Document readFromFile(File f) throws IOException {
 		FileReader fileReader = new FileReader(f);
 		int ch;
