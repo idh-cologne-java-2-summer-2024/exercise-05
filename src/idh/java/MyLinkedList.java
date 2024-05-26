@@ -27,43 +27,114 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public int size() {
-	// TODO Implement!
-	return 0;
+    	int size = 0;
+        ListElement current = first;
+        while (current != null) {
+            size++;
+            current = current.next;
+        }
+        return size;
     }
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
-	return false;
-    }
+    	 ListElement current = first;
+         while (current != null) {
+             if (current.payload.equals(o)) {
+                 return true;
+             }
+             current = current.next;
+         }
+         return false;
+     }
 
     @Override
     public boolean remove(Object o) {
-	// TODO: Implement
+    	if (first == null) {
+            return false;
+        }
+        if (first.payload.equals(o)) {
+            first = first.next;
+            return true;
+        }
+        ListElement current = first;
+        while (current.next != null) {
+            if (current.next.payload.equals(o)) {
+                current.next = current.next.next;
+                return true;
+            }
+            current = current.next;
+        }
 	return false;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-	// TODO Implement!
-	return false;
+    	if (index < 0 || index > size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        ListElement current = first;
+        ListElement prev = null;
+        for (int i = 0; i < index; i++) {
+            prev = current;
+            current = current.next;
+        }
+        for (T element : c) {
+            ListElement newListElement = new ListElement(element);
+            if (prev == null) {
+                newListElement.next = first;
+                first = newListElement;
+            } else {
+                newListElement.next = prev.next;
+                prev.next = newListElement;
+            }
+            prev = newListElement;
+        }
+	return true;
     }
 
     @Override
     public T set(int index, T element) {
-	// TODO: Implement
-	return null;
+    	ListElement current = getElement(index);
+        if (current == null) {
+            throw new IndexOutOfBoundsException();
+        }
+        T oldPayload = current.payload;
+        current.payload = element;
+        return oldPayload;
     }
 
     @Override
     public void add(int index, T element) {
-	// TODO: Implement
+    	if (index < 0 || index > size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        ListElement newListElement = new ListElement(element);
+        if (index == 0) {
+            newListElement.next = first;
+            first = newListElement;
+        } else {
+            ListElement prev = getElement(index - 1);
+            newListElement.next = prev.next;
+            prev.next = newListElement;
+        }
     }
 
     @Override
     public T remove(int index) {
-	// TODO: Implement
-	return null;
+    	if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (index == 0) {
+            T payload = first.payload;
+            first = first.next;
+            return payload;
+        } else {
+            ListElement prev = getElement(index - 1);
+            T payload = prev.next.payload;
+            prev.next = prev.next.next;
+            return payload;
+        }
     }
 
     @Override
@@ -93,19 +164,28 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-	return this.toArray(new Object[this.size()]);
+    	Object[] array = new Object[size()];
+        int i = 0;
+        for (T t : this) {
+            array[i++] = t;
+        }
+        return array;
     }
 
     @Override
     public <E> E[] toArray(E[] a) {
-	if (a.length < size()) {
-	    a = (E[]) new Object[size()];
-	}
-	int i = 0;
-	for (T t : this) {
-	    a[i++] = (E) t;
-	}
-	return a;
+        if (a.length < size()) {
+            a = (E[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size());
+        }
+        int i = 0;
+        Object[] result = a;
+        for (T t : this) {
+            result[i++] = t;
+        }
+        if (a.length > size()) {
+            a[size()] = null;
+        }
+        return a;
     }
 
     @Override
@@ -135,7 +215,7 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
-	boolean r = true;
+	boolean r = false;
 	for (Object o : c)
 	    r = r || this.remove(o);
 	return r;
@@ -153,7 +233,11 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-	return getElement(index).payload;
+    	ListElement element = getElement(index);
+        if (element == null) {
+            throw new IndexOutOfBoundsException();
+        }
+        return element.payload;
     }
 
     @Override

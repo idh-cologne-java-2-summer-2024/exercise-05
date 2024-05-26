@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Document implements Iterable<String> {
@@ -43,31 +41,16 @@ public class Document implements Iterable<String> {
 	@Override
 	public Iterator<String> iterator() {
 		StringTokenizer st = new StringTokenizer(documentText);
-		List<String> list = new LinkedList<String>();
-		while(st.hasMoreTokens()) {
-			list.add(st.nextToken());
-		}
-		return list.iterator();
-	}
-	
-	class DocumentIterator implements Iterator<String> {
+		return new Iterator<String>() {
+            @Override
+            public boolean hasNext() {
+                return st.hasMoreTokens();
+            }
 
-		StringTokenizer st;
-		public DocumentIterator(String s) {
-			 st = new StringTokenizer(s);
-
-		}
-		
-		@Override
-		public boolean hasNext() {
-			return st.hasMoreTokens();
-		}
-
-		@Override
-		public String next() {
-			return st.nextToken();
-		}
-		
-	}
-	
+            @Override
+            public String next() {
+                return st.nextToken();
+            }
+        };
+    }
 }
