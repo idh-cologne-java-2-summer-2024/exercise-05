@@ -27,19 +27,35 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public int size() {
-	// TODO Implement!
-	return 0;
+    	int counter = 0;
+    	if(first != null) {
+    		counter++;
+    		ListElement current = first;
+    		while(current.next != null) {
+    			counter++;
+    			current = current.next;
+    		}
+    	}
+    	
+	return counter;
     }
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
+    		ListElement current = first;
+    		while(current != null) {
+    			if(current.payload == o) {
+    				return true;
+    			}
+    			current = current.next;
+    		}
 	return false;
     }
 
     @Override
     public boolean remove(Object o) {
 	// TODO: Implement
+    	
 	return false;
     }
 
