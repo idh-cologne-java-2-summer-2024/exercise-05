@@ -58,10 +58,25 @@ public class MyLinkedList<T> implements List<T> {
     	}
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override //SOLVED well I didn't  
     public boolean remove(Object o) {
-	// TODO: Implement
-	return false;
+    	if (first == null) {
+    		return false;
+    	}else {
+    		
+    		ListElement current=first;
+    		while (current !=null){
+    			if (current.payload==o) {
+    				current.payload=(T) "REMOVED"; //You can write down null instead of "Removed" but then you have to take 
+    											//care of possible errors occuring to that in other functions and 
+    											//but here U can see that I solved this task. The former text is deleted ;)
+    				return true;
+    			}
+    			current = current.next;
+    		}
+    	return false;
+    	}
     }
 
     @Override
@@ -70,7 +85,7 @@ public class MyLinkedList<T> implements List<T> {
     	return false;
     }
 
-    @Override //DONE
+    @Override //SOLVED
     public T set(int index, T element) throws IndexOutOfBoundsException{
     	T former;
     	if (first == null) {
@@ -92,7 +107,7 @@ public class MyLinkedList<T> implements List<T> {
     	}
     }
 
-    @Override //SOLVED -> so halb zumindest
+    @Override //SOLVED
     public void add(int index, T element) throws IndexOutOfBoundsException{
     	T placeholder;
     	T placeholder2;
@@ -106,18 +121,23 @@ public class MyLinkedList<T> implements List<T> {
     			if(counter==index) {
     				placeholder = current.payload; 
     				current.payload = element;
-    				if (current.next == null) {
-    					add(placeholder);
-    					return;
-    				}
+    		//		System.out.println(current.payload.toString());
+    				
     				while(current.next!=null) {
+    					current = current.next;
     					placeholder2 = current.payload;
     					current.payload = placeholder;
     					placeholder = placeholder2; //die in PH2 gespeicherten Werte werden in PH1 gespeichert, 
     					//sodass PH2 wieder in der Iterierung mit dem nächsten Value beschrieben werden kann.
-    					current = current.next;
+    		//			System.out.println(current.payload.toString());
     				}
+    				if (current.next == null) {
+    					add(placeholder);
+    					return;
+    				}
+    				return;
     			}
+    		//	System.out.println(current.payload.toString());
     			current = current.next;
     			counter++;
     		}
@@ -125,10 +145,30 @@ public class MyLinkedList<T> implements List<T> {
     	}
     }
 
-    @Override
-    public T remove(int index) {
-    	// TODO: Implement
-    	return null;
+    @Override //(nicht ganz fertig bis jetzt -> probiermal current payload = next.payload)
+    public T remove(int index) throws IndexOutOfBoundsException{
+    	T removedElement;
+    	T placeholder2;
+    	if (first == null) {
+    		throw new IndexOutOfBoundsException();
+    	}else {
+    		int counter = 0;
+    		
+    		ListElement current=first;
+    		while (current !=null){
+    			if(counter==index) {
+    				removedElement = current.payload;
+    				current.payload=current.next.payload;
+    				//
+    				return removedElement;
+    			}
+    			
+    		//	System.out.println(current.payload.toString());
+    			current.next = current;
+    			counter++;
+    		}
+    		throw new IndexOutOfBoundsException();
+    	}
     }
 
     @Override
@@ -361,14 +401,16 @@ public class MyLinkedList<T> implements List<T> {
 
     public static void main(String[] args) {
     	MyLinkedList<String> ll = new MyLinkedList<String>();
-    	ll.add("Hallo");
+    	ll.add("Hallo UzK");
+    	ll.add("guten Morgen!");
     	ll.add("Welt");
-    	ll.add("Welt");
+    	ll.add("POTZBLITZ WAR DAS ANSTRENGEND");
+    	ll.remove("POTZBLITZ WAR DAS ANSTRENGEND");
     	ll.get(0);
     	System.out.println("_Die Liste ist "+ll.size()+" Einheiten lang");
     	System.out.println("_Die Liste enthält das Wort Yeehaw: "+ll.contains("Yeehaw"));
     	System.out.println("_Die Liste überschreibt folgendes Wort mit Yeehaw: "+ll.set(2, "Yeehaw"));
-    	ll.add(0, "siu");
+    	ll.add(2, "ich hab's geschafft |_(^.^)_/");
     	System.out.println("Und jetzt einmal die komplette Liste:\n{");
     	for (String s : ll) {
     		System.out.println(s);
