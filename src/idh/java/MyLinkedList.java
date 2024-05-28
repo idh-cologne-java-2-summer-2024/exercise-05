@@ -27,43 +27,106 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public int size() {
-	// TODO Implement!
-	return 0;
+	int count = 0;
+	ListElement current = first;
+	while (current != null) {
+		count++;
+		current = current.next;	}
+	return count;
     }
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
+	ListElement current = first;
+	while (current != null) {
+		if(current.payload.equals(o)) {
+			return true;
+		}
+	}
 	return false;
     }
 
     @Override
     public boolean remove(Object o) {
-	// TODO: Implement
+	if(first == null) return false;
+	if(first.payload.equals(o)) {
+		first = first.next;
+		return true;
+	}
+	
+		ListElement current = first;
+		while(current.next != null) {
+			if(current.next.payload.equals(o)) {
+				current.next = current.next.next;
+				return true;
+			}
+		}
 	return false;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-	// TODO Implement!
-	return false;
+    	if(index < 0 || index > size()) throw new IndexOutOfBoundsException();
+    	if(c.isEmpty()) return false;
+    	
+    	ListElement prev = getElement(index -1);
+    	ListElement next = getElement(index);
+    	
+    	for(T element : c) {
+    		ListElement newElement = new ListElement(element);
+    		if(prev == null) {
+    			newElement.next = first;
+    			first = newElement;
+    			prev = first;
+    		} else {
+    			newElement.next = prev.next;
+    			prev.next = newElement;
+    			prev = newElement;
+    		}
+    	}
+	
+    	return true;
     }
 
     @Override
     public T set(int index, T element) {
-	// TODO: Implement
-	return null;
+		ListElement current = getElement(index);
+		if(current == null) throw new IndexOutOfBoundsException();
+		T oldPayload = current.payload;
+		current.payload = element;
+		return oldPayload;
     }
 
     @Override
     public void add(int index, T element) {
-	// TODO: Implement
+    	if(index < 0 || index > size()) throw new IndexOutOfBoundsException();
+    	
+    	ListElement newElement = new ListElement(element);
+    	if(index == 0) {
+    		newElement.next = first;
+    		first = newElement;
+    		return;
+    	}
+    	ListElement prev = getElement(index-1);
+    	newElement.next = prev.next;
+    	prev.next = newElement;
     }
 
     @Override
     public T remove(int index) {
-	// TODO: Implement
-	return null;
+    	if(index < 0 || index >= size()) throw new IndexOutOfBoundsException();
+    	ListElement prev = getElement(index-1);
+    	if(index == 0) {
+    		T payload = first.payload;
+    		first = first.next;
+    		return payload;
+    	} else {
+    		ListElement current = prev.next;
+    		T payload = current.payload;
+    		prev.next = current.next;
+    		return payload;
+    	}
+	
     }
 
     @Override
