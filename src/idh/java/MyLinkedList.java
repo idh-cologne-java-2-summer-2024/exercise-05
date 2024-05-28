@@ -354,18 +354,19 @@ public class MyLinkedList<T> implements List<T> {
      * @param index
      * @return
      */
-    private ListElement getElement(int index) {
-        if (index < 0 || isEmpty())
-            throw new IndexOutOfBoundsException();
-        ListElement current = first;
-        while (current != null) {
-            if (index == 0)
-                return current;
-            index--;
-            current = current.next;
-        }
-        throw new IndexOutOfBoundsException();
+     private ListElement getElement(int index) {
+	if (isEmpty())
+	    return null;
+	ListElement current = first;
+	while (current != null) {
+	    if (index == 0)
+		return current;
+	    index--;
+	    current = current.next;
+	}
+	return null;
     }
+
 
     public static void main(String[] args) {
         MyLinkedList<String> ll = new MyLinkedList<String>();
