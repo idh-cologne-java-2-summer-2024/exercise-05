@@ -225,7 +225,7 @@ public class MyLinkedList<T> implements List<T> {
         if (element == null) {
             throw new IndexOutOfBoundsException();
         }
-        return element.payload;
+        return element.payload; 
     }
 
     @Override
@@ -362,6 +362,7 @@ public class MyLinkedList<T> implements List<T> {
         while (current != null) {
             if (index == 0)
                 return current;
+            
             index--;
             current = current.next;
         }
@@ -378,4 +379,5 @@ public class MyLinkedList<T> implements List<T> {
             System.out.println(s);
         }
     }
+    
 }
