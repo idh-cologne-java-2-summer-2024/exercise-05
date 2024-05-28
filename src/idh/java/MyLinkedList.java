@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
+//I am probably getting all of this wrong...
 public class MyLinkedList<T> implements List<T> {
 
     /**
