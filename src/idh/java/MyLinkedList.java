@@ -87,25 +87,67 @@ public class MyLinkedList<T> implements List<T> {
 			}
 			return true;
 		} else {
-		return false;
+			return false;
 		}
 	}
 
 	@Override
 	public T set(int index, T element) {
-		// TODO: Implement
-		return null;
+		if (index < size() && index >= 0) {
+			ListElement current = first;
+			int counter = 0;
+			while (counter != index) {
+				current = current.next;
+				counter++;
+			}
+			T ret = current.payload;
+			current.payload = element;
+
+			return ret;
+		} else {
+			throw new IndexOutOfBoundsException();
+		}
 	}
 
 	@Override
 	public void add(int index, T element) {
-		// TODO: Implement
+		if (index < size() && index >= 0) {
+			int counter = 1;
+			ListElement current = first;
+			while (counter < index) {
+				current = current.next;
+				counter++;
+			}
+			ListElement n = new ListElement(element);
+			n.next = current.next;
+			current.next = n;
+		} else {
+			throw new IndexOutOfBoundsException();
+		}
 	}
 
 	@Override
 	public T remove(int index) {
-		// TODO: Implement
-		return null;
+		if (index < size() && index >= 0) {
+			if(index == 0) {
+				T ret = first.payload;
+				first = first.next;
+				return ret;
+			}
+			ListElement current = first;
+			int counter = 1;
+
+			while (counter < index) {
+				current = current.next;
+				counter++;
+			}
+			T ret = current.next.payload;
+			current.next = current.next.next;
+
+			return ret;
+		} else {
+			return null;
+		}
 	}
 
 	@Override
