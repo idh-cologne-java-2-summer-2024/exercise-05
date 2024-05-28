@@ -42,22 +42,17 @@ public class Document implements Iterable<String> {
 
 	@Override
 	public Iterator<String> iterator() {
-		StringTokenizer st = new StringTokenizer(documentText);
-		List<String> list = new LinkedList<String>();
-		while(st.hasMoreTokens()) {
-			list.add(st.nextToken());
-		}
-		return list.iterator();
+		return new DocumentIterator(documentText);
 	}
-	
+
 	class DocumentIterator implements Iterator<String> {
 
 		StringTokenizer st;
-		public DocumentIterator(String s) {
-			 st = new StringTokenizer(s);
 
+		public DocumentIterator(String s) {
+			st = new StringTokenizer(s);
 		}
-		
+
 		@Override
 		public boolean hasNext() {
 			return st.hasMoreTokens();
