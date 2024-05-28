@@ -27,25 +27,40 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public int size() {
-	// TODO Implement!
-	return 0;
+    	int size = 0;
+        ListElement current = first;
+        while (current != null) {
+            size++;
+            current = current.next;
+        }
+        return size;
     }
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
+    	 ListElement current = first;
+         while (current != null) {
+             if (current.payload.equals(o)) {
+                 return true;
+             }
+             current = current.next;
+         }
 	return false;
     }
 
     @Override
     public boolean remove(Object o) {
-	// TODO: Implement
+    	 if (first == null) {
 	return false;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-	// TODO Implement!
+    	  if (index < 0 || index > size()) {
+              throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+          }
+
+          if (c.isEmpty()) {
 	return false;
     }
 
@@ -57,8 +72,16 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public void add(int index, T element) {
-	// TODO: Implement
-    }
+    	 if (index < 0 || index > size()) {
+             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+         }
+
+         ListElement newElement = new ListElement(element);
+         if (index == 0) {
+             newElement.next = first;
+             first = newElement;
+             return;
+         }
 
     @Override
     public T remove(int index) {
