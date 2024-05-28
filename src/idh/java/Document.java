@@ -22,6 +22,7 @@ public class Document implements Iterable<String> {
 		Document doc = new Document();
 		doc.documentText = b.toString();
 		
+	
 		return doc;
 	}
 	
@@ -36,7 +37,7 @@ public class Document implements Iterable<String> {
 	public static final void main(String[] args) throws IOException {
 		Document d = Document.readFromFile(new File("data/dracula.txt"));
 		for(String token : d) {
-			System.out.println(token);
+			System.out.print(token);
 		}
 	}
 

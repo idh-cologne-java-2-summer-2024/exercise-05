@@ -27,42 +27,102 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public int size() {
-	// TODO Implement!
-	return 0;
-    }
+    int counter = 0;
+    
+    ListElement current = first;
+		while (current != null) {
+		current = current.next;
+		counter++;
+	}
+		return counter;	
+	}
+   
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
-	return false;
+	ListElement current = first;
+		if (first == null) {
+			return false;
+	}
+		else {
+			while (o != current) {
+			current = current.next;
+		}
+			return true;
+	}
     }
 
     @Override
     public boolean remove(Object o) {
-	// TODO: Implement
-	return false;
-    }
-
+    ListElement current = first;
+    	    
+    while (current.next != null) {
+    current.next = current;
+    	    	
+    	if (current == o) {
+    	current = null;
+    	}
+    	}
+    	return true; }
+    
+    
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-	// TODO Implement!
-	return false;
-    }
+    	for (T t : c)
+    	    this.add(t);
+    	return true;
+        }
 
     @Override
     public T set(int index, T element) {
-	// TODO: Implement
-	return null;
-    }
+    ListElement current = first;
+    int counter = 0;
+    	if (first == null) {
+    		return null;
+    		}
+    	else {
+    			while (current.next != null) {
+    			counter ++;
+    				if (counter == index) {
+    					current = null;
+    					current = new ListElement (element);
+    				}
+    			}
+    	    }
+    	return element; 
+    	}
+    
 
     @Override
     public void add(int index, T element) {
-	// TODO: Implement
+    int counter = 0;
+	if (first == null) {
+		first = new ListElement (element);
+	}
+	else {
+		ListElement current = first;
+		while (current.next != null) {
+			counter ++;
+			if (counter == index) {
+				current = new ListElement (element);
+			}
+		}
+    }
     }
 
     @Override
     public T remove(int index) {
-	// TODO: Implement
+    ListElement current = first;
+    int counter = 0;
+    
+    while (current.next != null) {
+    	current.next = current;
+    	counter++;
+    	
+    	if (index == counter) {
+    		current = null;
+    	}
+    }
 	return null;
     }
 
