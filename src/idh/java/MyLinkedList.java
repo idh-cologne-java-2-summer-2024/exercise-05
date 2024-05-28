@@ -4,8 +4,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 public class MyLinkedList<T> implements List<T> {
+
 
     /**
      * Helper class for the list elements
@@ -20,49 +22,96 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     /**
-     * We only need to store the very first element of our list, because it will now
+     * We only need to store the very first element of our list, because it will know
      * whether there is a next element.
      */
     ListElement first;
 
     @Override
     public int size() {
-	// TODO Implement!
-	return 0;
+    	if (first == null) {
+    		return 0;
+	    } else {
+	    	int counter = 0;
+	    	
+	    	ListElement current = first;
+	    	while (current != null) {
+	    		current = current.next;
+	    		counter++;
+	    	}
+	    	
+	    	return counter;
+	    }
     }
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
-	return false;
+    	if (first == null) {
+    		return false;
+    	} else {
+    		
+    		ListElement current = first;
+    		while (current != null) {
+    			if (current == o) {
+    				return true;
+    			} current = current.next; 
+    
+    		} return false;
+    	}
+	
     }
 
     @Override
-    public boolean remove(Object o) {
-	// TODO: Implement
-	return false;
+    public boolean remove(Object o) throws NoSuchElementException {
+    	if (first == null) {
+    		return false;
+    	} else {
+   
+    		ListElement current = first;
+    		while (current != null) {
+    			if (current == o) {
+    				current = null;
+    			} current = current.next; 
+    
+    		} return true;
+    	}
+	
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-	// TODO Implement!
+	// Ich habe keine Ahnung wie ich das implementieren soll.  
 	return false;
     }
 
     @Override
     public T set(int index, T element) {
-	// TODO: Implement
-	return null;
+    	ListElement current = first;
+    	while (current.next != index) {
+    		if (current.next == index) {
+    			current == element;
+    		} current = current.next; 
+    
+    	}
     }
 
     @Override
     public void add(int index, T element) {
-	// TODO: Implement
+	    	int counter = 0;
+	    	
+	    	ListElement current = first;
+	    	while (current <= index) {
+	    		if (current == index) {	
+	    		current = element;
+	    		counter++;
+	    	}
+	    	
+	    	return; }
     }
 
     @Override
     public T remove(int index) {
-	// TODO: Implement
+	// Ich verstehe nicht, wie ich die übrigen Elemente verschieben soll :(
 	return null;
     }
 
@@ -273,6 +322,22 @@ public class MyLinkedList<T> implements List<T> {
 	}
 	return current;
     }
+    
+  
+	public static void main(String[] args) {
+		MyLinkedList<String> ll = new MyLinkedList<String>();
+		String tester = "Welt";
+		
+		ll.add("Hallo");
+		ll.add("Welt");
+		ll.add("Bumm");
+		ll.get(0);
+		System.out.println(ll.contains(tester));
+		for (String s : ll) {
+		    System.out.println(s);
+		}
+
+	}
 
     /**
      * Internal method to get the list element (not the value) of the list at the
@@ -294,15 +359,5 @@ public class MyLinkedList<T> implements List<T> {
 	return null;
     }
 
-    public static void main(String[] args) {
-	MyLinkedList<String> ll = new MyLinkedList<String>();
-	ll.add("Hallo");
-	ll.add("Welt");
-	ll.add("Welt");
-	ll.get(0);
-	for (String s : ll) {
-	    System.out.println(s);
-	}
-
-    }
+ 
 }
