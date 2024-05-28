@@ -57,7 +57,7 @@ public class Document implements Iterable<String> {
 			 st = new StringTokenizer(s);
 
 		}
-		
+
 		@Override
 		public boolean hasNext() {
 			return st.hasMoreTokens();
