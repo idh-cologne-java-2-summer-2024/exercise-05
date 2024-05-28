@@ -27,43 +27,127 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public int size() {
-	// TODO Implement!
+    	int size = 0;
+        ListElement current = first;
+        while (current != null) {
+        	size++;
+            current = current.next;
+         }
 	return 0;
     }
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
+    	ListElement current = first;
+        while (current != null) {
+        	if ((o == null && current.payload == null) || (o != null && o.equals(current.payload))) {
+        		return true;
+            }
+            current = current.next;
+        }
 	return false;
     }
 
     @Override
     public boolean remove(Object o) {
-	// TODO: Implement
-	return false;
+    	if (isEmpty()) {
+    		return false;
+        }
+
+    	if ((o == null && first.payload == null) || (o != null && o.equals(first.payload))) {
+    		first = first.next;
+            return true;
+        }
+
+        ListElement current = first;
+        	while (current.next != null) {
+        		if ((o == null && current.next.payload == null) || (o != null && o.equals(current.next.payload))) {
+        			current.next = current.next.next;
+        			return true;
+              }
+              current = current.next;
+          }
+          return false;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-	// TODO Implement!
-	return false;
+    	if (index < 0 || index > size()) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+        }
+
+        if (c.isEmpty()) {
+            return false;
+        }
+
+        ListElement prev = null;
+        ListElement current = first;
+        for (int i = 0; i < index; i++) {
+            prev = current;
+            current = current.next;
+        }
+
+        for (T element : c) {
+            ListElement newElement = new ListElement(element);
+            if (prev == null) {
+                newElement.next = first;
+                first = newElement;
+            } else {
+                newElement.next = prev.next;
+                prev.next = newElement;
+            }
+            prev = newElement;
+        }
+
+        return true;
     }
 
     @Override
     public T set(int index, T element) {
-	// TODO: Implement
-	return null;
+    	ListElement current = getElement(index);
+    	if (current == null) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+        }
+
+        T oldPayload = current.payload;
+        current.payload = element;
+        return oldPayload;
     }
 
     @Override
     public void add(int index, T element) {
-	// TODO: Implement
-    }
+    	if (index < 0 || index > size()) {
+    		throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+        }
+
+        ListElement newElement = new ListElement(element);
+
+        if (index == 0) {
+        	newElement.next = first;
+            first = newElement;
+        } else {
+        	ListElement prev = getElement(index - 1);
+            newElement.next = prev.next;
+            prev.next = newElement;
+        }
+     }
 
     @Override
     public T remove(int index) {
-	// TODO: Implement
-	return null;
+        if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+        }
+
+        if (index == 0) {
+            T payload = first.payload;
+            first = first.next;
+            return payload;
+        } else {
+            ListElement prev = getElement(index - 1);
+            T payload = prev.next.payload;
+            prev.next = prev.next.next;
+            return payload;
+        }
     }
 
     @Override
