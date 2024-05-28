@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Document implements Iterable<String> {
-	String documentText;
+	private String documentText;
 
 	public static Document readFromFile(File f) throws IOException {
 		FileReader fileReader = new FileReader(f);
@@ -33,12 +33,6 @@ public class Document implements Iterable<String> {
 		this.documentText = documentText;
 	}
 	
-	public static final void main(String[] args) throws IOException {
-		Document d = Document.readFromFile(new File("data/dracula.txt"));
-		for(String token : d) {
-			System.out.println(token);
-		}
-	}
 
 	@Override
 	public Iterator<String> iterator() {
@@ -68,6 +62,13 @@ public class Document implements Iterable<String> {
 			return st.nextToken();
 		}
 		
+	}
+	
+	public static final void main(String[] args) throws IOException {
+		Document d = Document.readFromFile(new File("data/dracula.txt"));
+		for(String token : d) {
+			System.out.println(token);
+		}
 	}
 	
 }

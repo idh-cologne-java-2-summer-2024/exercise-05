@@ -27,48 +27,112 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public int size() {
-	// TODO Implement!
-	return 0;
+	int count = 0;
+	ListElement current = first;
+	while (current != null) {
+		count++;
+		current = current.next;
+	}
+	return count;
     }
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
+    	ListElement current = first;
+    	while (current != null) {
+    		if ((o == null && current.payload == null) || (o != null && o.equals(current.payload))){
+    			return true;
+    		}
+    		current = current.next;
+    	}
 	return false;
     }
 
     @Override
     public boolean remove(Object o) {
-	// TODO: Implement
+    	if (first == null) {
 	return false;
     }
+    	if ((o == null && first.payload == null) || (o != null && o.equals(first.payload))) {
+            first = first.next; // Entfernt das erste Element, wenn es übereinstimmt
+            return true;
+        }
+    	
+    	ListElement current = first;
+        while (current.next != null) { // Iteriert durch die Liste
+            if ((o == null && current.next.payload == null) || (o != null && o.equals(current.next.payload))) {
+                current.next = current.next.next; // Entfernt das übereinstimmende Element
+                return true;
+            }
+            current = current.next; // Geht zum nächsten Element über
+        }
+
+        return false;
+    }
+    	
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-	// TODO Implement!
-	return false;
+    	if (index < 0 || index > size()) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size()); // Überprüft den Indexbereich
+        }
+        boolean modified = false; // Flag, um Änderungen zu verfolgen
+        for (T element : c) { // Fügt jedes Element der Sammlung an der angegebenen Position hinzu
+            add(index++, element); // Erhöht den Index nach jedem Hinzufügen
+            modified = true;
+        }
+        return modified; // Gibt true zurück, wenn die Liste geändert wurde
     }
+    
 
     @Override
     public T set(int index, T element) {
-	// TODO: Implement
-	return null;
+    	ListElement current = getElement(index); // Holt das Element an der angegebenen Position
+        if (current == null) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size()); // Überprüft den Indexbereich
+        }
+        T oldPayload = current.payload; // Speichert den alten Wert
+        current.payload = element; // Setzt den neuen Wert
+        return oldPayload; // Gibt den alten Wert zurück
     }
 
     @Override
     public void add(int index, T element) {
-	// TODO: Implement
+    	if (index < 0 || index > size()) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size()); // Überprüft den Indexbereich
+        }
+        if (index == 0) {
+            ListElement newElement = new ListElement(element); // Erstellt ein neues Element
+            newElement.next = first; // Verbindet das neue Element mit dem ersten Element
+            first = newElement; // Setzt das neue Element als erstes Element
+        } else {
+            ListElement prev = getElement(index - 1); // Holt das vorherige Element
+            ListElement newElement = new ListElement(element); // Erstellt ein neues Element
+            newElement.next = prev.next; // Verbindet das neue Element mit dem nachfolgenden Element
+            prev.next = newElement; // Verbindet das vorherige Element mit dem neuen Element
+        }
     }
 
     @Override
     public T remove(int index) {
-	// TODO: Implement
-	return null;
+    	if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size()); // Überprüft den Indexbereich
+        }
+        if (index == 0) {
+            T removedPayload = first.payload; // Speichert den zu entfernenden Wert
+            first = first.next; // Entfernt das erste Element
+            return removedPayload; // Gibt den entfernten Wert zurück
+        } else {
+            ListElement prev = getElement(index - 1); // Holt das vorherige Element
+            T removedPayload = prev.next.payload; // Speichert den zu entfernenden Wert
+            prev.next = prev.next.next; // Entfernt das Element
+            return removedPayload; // Gibt den entfernten Wert zurück
+        }
     }
 
     @Override
     public boolean isEmpty() {
-	return first == null;
+	return first == null; // Gibt true zurück, wenn die Liste leer ist
     }
 
     @Override
@@ -83,9 +147,9 @@ public class MyLinkedList<T> implements List<T> {
 
 	    @Override
 	    public T next() {
-		T ret = next.payload;
-		next = next.next;
-		return ret;
+	    	T ret = next.payload;
+	    	next = next.next;
+	    	return ret;
 	    }
 
 	};
@@ -93,7 +157,12 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-	return this.toArray(new Object[this.size()]);
+    	Object[] array = new Object[size()]; // Erstellt ein Array der passenden Größe
+        int i = 0; // Initialisiert einen Index
+        for (T t : this) { // Iteriert durch die Liste
+            array[i++] = t; // Fügt jedes Element dem Array hinzu
+        }
+        return array; // Gibt das Array zurück
     }
 
     @Override
@@ -102,9 +171,13 @@ public class MyLinkedList<T> implements List<T> {
 	    a = (E[]) new Object[size()];
 	}
 	int i = 0;
+	Object[] result = a; // Verwendet das übergebene Array oder das neue Array
 	for (T t : this) {
-	    a[i++] = (E) t;
+		result[i++] = t;
 	}
+	if (a.length > size) {
+        a[size] = null; // Setzt das erste überflüssige Element auf null
+    }
 	return a;
     }
 
@@ -128,10 +201,15 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-	for (T t : c)
-	    this.add(t);
-	return true;
-    }
+    	boolean modified = false; // um Veränderungen zu verfolgen
+		for (T t : c) {
+			if (add(t)) {
+	            modified = true; // Fügt jedes Element der Liste hinzu
+	        }
+	    }
+	    return modified; // Gibt true zurück, wenn die Liste geändert wurde
+	}
+	    
 
     @Override
     public boolean removeAll(Collection<?> c) {
