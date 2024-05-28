@@ -27,20 +27,54 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public int size() {
-	// TODO Implement!
-	return 0;
+	// DONE Implement!
+    	int i = 0;
+    	if (first == null)
+    		return 0;
+    	ListElement current = first;
+    	i = 1;
+
+    	while (current.next != null) {
+    		i ++;
+    		if (i == Integer.MAX_VALUE)
+    			return Integer.MAX_VALUE;
+    		current = current.next;
+    	}
+    	return i;
     }
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
-	return false;
+	// DONE Implement!
+    	if (first == null)
+    		return false;
+    	ListElement current = first;
+    	while (current.next != null) {
+    		if (current == o || current.equals(o)) {     				
+    			return true;
+    		}
+    		current = current.next;
+    	}
+    	return current == o || current.equals(o);
     }
 
     @Override
     public boolean remove(Object o) {
 	// TODO: Implement
-	return false;
+    	int i = 0;
+
+    	if (first == null)
+    		return false;
+    	ListElement current = first;
+    	i = 1;
+    	while (current.next != null) {
+    		if (current == o || current.equals(o)) {
+    			return true;
+    		}
+    		i ++;
+    		current = current.next;
+    	}
+    	return current == o || current.equals(o);
     }
 
     @Override
@@ -303,6 +337,8 @@ public class MyLinkedList<T> implements List<T> {
 	for (String s : ll) {
 	    System.out.println(s);
 	}
+
+	System.out.println(ll.size());
 
     }
 }
