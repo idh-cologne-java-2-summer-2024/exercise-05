@@ -27,43 +27,127 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public int size() {
-	// TODO Implement!
-	return 0;
+	int counter = 0;
+	if(first == null) {
+		return 0;
+	} else {
+		ListElement current = first;
+		while (current != null) {
+			current = current.next;
+			counter++;
+		}
+	return counter;
+	}
     }
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
-	return false;
+    	if(first == null) {
+    		return false;
+    	} else {
+    		ListElement current = first;
+    		while (current.next != null ) {
+    			current = current.next;
+    			if (current == o) {
+    				return true;
+    			}
+    		}
+    		return false;
+    	}
     }
 
     @Override
     public boolean remove(Object o) {
-	// TODO: Implement
-	return false;
+    	if(first == null) {
+    		return false;
+    	} else {
+    		ListElement current = first;
+    		while (current.next != null ) {
+    			current = current.next;
+    			if (current == o) {
+    				current = null;
+    				return true;
+    			}
+    		}
+    		return false;
+    	}
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-	// TODO Implement!
-	return false;
+    	int counter=0;
+     	if(first == null) {
+    		return false;
+    	} else {
+    		ListElement current = first;
+    		while (current.next != null ) {
+    			current = current.next;
+    			counter++;
+    			if (counter == index - 1) {
+    				Iterator<? extends T> iter = c.iterator();
+    				while (iter.hasNext()) {
+    				current.next.payload = iter.next();
+    				return true;
+    				}
+    			}
+    		}
+    	 return false;
+    	}
     }
 
     @Override
-    public T set(int index, T element) {
-	// TODO: Implement
-	return null;
+    public T set(int index, T element) throws IndexOutOfBoundsException{
+    	int counter=0;
+     	if(first == null) {
+    		throw new IndexOutOfBoundsException();
+    	} else {
+    		ListElement current = first;
+    		while (current.next != null ) {
+    			current = current.next;
+    			counter++;
+    			if (counter == index) {
+    				current.payload = element;
+    				return null;
+    			}
+    		}
+    		throw new IndexOutOfBoundsException();
+    	}
     }
 
     @Override
     public void add(int index, T element) {
-	// TODO: Implement
+    int counter = 0;
+	if(first == null) {
+		first = new ListElement(element);
+	} else {
+		ListElement current = first;
+		while (current != null) {
+			current = current.next;
+			counter++;
+			if (counter == index) {
+				current.payload = element;
+			}
+		}
+	}
     }
 
     @Override
     public T remove(int index) {
-	// TODO: Implement
+    	int counter=0;
+    	if(first == null) {
+    		return null;
+    	} else {
+    		ListElement current = first;
+    		while (current.next != null ) {
+    			current = current.next;
+    			counter++;
+    			if (counter == index) {
+    				current = null;
+    				break;
+    			}
+    		}
 	return null;
+    	}
     }
 
     @Override
