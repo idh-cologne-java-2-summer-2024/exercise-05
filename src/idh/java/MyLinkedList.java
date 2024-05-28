@@ -11,250 +11,315 @@ public class MyLinkedList<T> implements List<T> {
      * Helper class for the list elements
      */
     private class ListElement {
-	T payload;
-	ListElement next;
+        T payload;
+        ListElement next;
 
-	ListElement(T value) {
-	    this.payload = value;
-	}
+        ListElement(T value) {
+            this.payload = value;
+        }
     }
 
     /**
-     * We only need to store the very first element of our list, because it will now
+     * We only need to store the very first element of our list, because it will know
      * whether there is a next element.
      */
     ListElement first;
 
     @Override
     public int size() {
-	// TODO Implement!
-	return 0;
+        int count = 0;
+        ListElement current = first;
+        while (current != null) {
+            count++;
+            current = current.next;
+        }
+        return count;
     }
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
-	return false;
+        ListElement current = first;
+        while (current != null) {
+            if (current.payload.equals(o)) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
     }
 
     @Override
     public boolean remove(Object o) {
-	// TODO: Implement
-	return false;
+        if (isEmpty()) {
+            return false;
+        }
+        if (first.payload.equals(o)) {
+            first = first.next;
+            return true;
+        }
+        ListElement current = first;
+        while (current.next != null) {
+            if (current.next.payload.equals(o)) {
+                current.next = current.next.next;
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-	// TODO Implement!
-	return false;
+        if (index < 0 || index > size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        boolean modified = false;
+        for (T t : c) {
+            add(index++, t);
+            modified = true;
+        }
+        return modified;
     }
 
     @Override
     public T set(int index, T element) {
-	// TODO: Implement
-	return null;
+        ListElement target = getElement(index);
+        if (target == null) {
+            throw new IndexOutOfBoundsException();
+        }
+        T oldPayload = target.payload;
+        target.payload = element;
+        return oldPayload;
     }
 
     @Override
     public void add(int index, T element) {
-	// TODO: Implement
+        if (index < 0 || index > size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        ListElement newElement = new ListElement(element);
+        if (index == 0) {
+            newElement.next = first;
+            first = newElement;
+        } else {
+            ListElement previous = getElement(index - 1);
+            newElement.next = previous.next;
+            previous.next = newElement;
+        }
     }
 
     @Override
     public T remove(int index) {
-	// TODO: Implement
-	return null;
+        if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (index == 0) {
+            T payload = first.payload;
+            first = first.next;
+            return payload;
+        }
+        ListElement previous = getElement(index - 1);
+        T payload = previous.next.payload;
+        previous.next = previous.next.next;
+        return payload;
     }
 
     @Override
     public boolean isEmpty() {
-	return first == null;
+        return first == null;
     }
 
     @Override
     public Iterator<T> iterator() {
-	return new Iterator<T>() {
-	    ListElement next = first;
+        return new Iterator<T>() {
+            ListElement next = first;
 
-	    @Override
-	    public boolean hasNext() {
-		return next != null;
-	    }
+            @Override
+            public boolean hasNext() {
+                return next != null;
+            }
 
-	    @Override
-	    public T next() {
-		T ret = next.payload;
-		next = next.next;
-		return ret;
-	    }
+            @Override
+            public T next() {
+                T ret = next.payload;
+                next = next.next;
+                return ret;
+            }
 
-	};
+        };
     }
 
     @Override
     public Object[] toArray() {
-	return this.toArray(new Object[this.size()]);
+        return this.toArray(new Object[this.size()]);
     }
 
     @Override
     public <E> E[] toArray(E[] a) {
-	if (a.length < size()) {
-	    a = (E[]) new Object[size()];
-	}
-	int i = 0;
-	for (T t : this) {
-	    a[i++] = (E) t;
-	}
-	return a;
+        if (a.length < size()) {
+            a = (E[]) new Object[size()];
+        }
+        int i = 0;
+        for (T t : this) {
+            a[i++] = (E) t;
+        }
+        return a;
     }
 
     @Override
     public boolean add(T e) {
-	ListElement newListElement = new ListElement(e);
-	if (first == null)
-	    first = newListElement;
-	else
-	    last().next = newListElement;
-	return true;
+        ListElement newListElement = new ListElement(e);
+        if (first == null)
+            first = newListElement;
+        else
+            last().next = newListElement;
+        return true;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-	for (Object o : c)
-	    if (!contains(o))
-		return false;
-	return true;
+        for (Object o : c)
+            if (!contains(o))
+                return false;
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-	for (T t : c)
-	    this.add(t);
-	return true;
+        for (T t : c)
+            this.add(t);
+        return true;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-	boolean r = true;
-	for (Object o : c)
-	    r = r || this.remove(o);
-	return r;
+        boolean r = true;
+        for (Object o : c)
+            r = r || this.remove(o);
+        return r;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void clear() {
-	first = null;
+        first = null;
     }
 
     @Override
     public T get(int index) {
-	return getElement(index).payload;
+        ListElement element = getElement(index);
+        if (element == null) {
+            throw new IndexOutOfBoundsException();
+        }
+        return element.payload;
     }
 
     @Override
     public int indexOf(Object o) {
-	if (isEmpty())
-	    return -1;
-	ListElement current = first;
-	int index = 0;
-	while (current != null) {
-	    if (current.payload.equals(o))
-		return index;
-	    index++;
-	    current = current.next;
-	}
-	return -1;
+        if (isEmpty())
+            return -1;
+        ListElement current = first;
+        int index = 0;
+        while (current != null) {
+            if (current.payload.equals(o))
+                return index;
+            index++;
+            current = current.next;
+        }
+        return -1;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-	if (isEmpty())
-	    return -1;
-	ListElement current = first;
-	int index = 0;
-	int lastFoundIndex = -1;
-	while (current != null) {
-	    if (current.payload.equals(o))
-		lastFoundIndex = index;
-	    index++;
-	    current = current.next;
-	}
-	return lastFoundIndex;
+        if (isEmpty())
+            return -1;
+        ListElement current = first;
+        int index = 0;
+        int lastFoundIndex = -1;
+        while (current != null) {
+            if (current.payload.equals(o))
+                lastFoundIndex = index;
+            index++;
+            current = current.next;
+        }
+        return lastFoundIndex;
     }
 
     @Override
     public ListIterator<T> listIterator() {
-	return new ListIterator<T>() {
+        return new ListIterator<T>() {
 
-	    ListElement previous = null;
-	    ListElement next = first;
-	    int index;
+            ListElement previous = null;
+            ListElement next = first;
+            int index;
 
-	    @Override
-	    public boolean hasNext() {
-		return next != null;
-	    }
+            @Override
+            public boolean hasNext() {
+                return next != null;
+            }
 
-	    @Override
-	    public T next() {
-		previous = next;
-		T ret = next.payload;
-		next = next.next;
-		index++;
-		return ret;
-	    }
+            @Override
+            public T next() {
+                previous = next;
+                T ret = next.payload;
+                next = next.next;
+                index++;
+                return ret;
+            }
 
-	    @Override
-	    public boolean hasPrevious() {
-		return false;
-	    }
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
 
-	    @Override
-	    public T previous() {
-		throw new UnsupportedOperationException();
-	    }
+            @Override
+            public T previous() {
+                throw new UnsupportedOperationException();
+            }
 
-	    @Override
-	    public int nextIndex() {
-		return index + 1;
-	    }
+            @Override
+            public int nextIndex() {
+                return index + 1;
+            }
 
-	    @Override
-	    public int previousIndex() {
-		return index - 1;
-	    }
+            @Override
+            public int previousIndex() {
+                return index - 1;
+            }
 
-	    @Override
-	    public void remove() {
-		previous.next = next.next;
-	    }
+            @Override
+            public void remove() {
+                if (previous == null) {
+                    throw new IllegalStateException();
+                }
+                previous.next = next.next;
+            }
 
-	    @Override
-	    public void set(T e) {
-		next.payload = e;
-	    }
+            @Override
+            public void set(T e) {
+                next.payload = e;
+            }
 
-	    @Override
-	    public void add(T e) {
-		throw new UnsupportedOperationException();
-	    }
+            @Override
+            public void add(T e) {
+                throw new UnsupportedOperationException();
+            }
 
-	};
+        };
     }
 
     @Override
     public ListIterator<T> listIterator(int index) {
-	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
-	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -264,14 +329,14 @@ public class MyLinkedList<T> implements List<T> {
      * @return
      */
     private ListElement last() {
-	if (first == null)
-	    return null;
-	ListElement current = first;
+        if (first == null)
+            return null;
+        ListElement current = first;
 
-	while (current.next != null) {
-	    current = current.next;
-	}
-	return current;
+        while (current.next != null) {
+            current = current.next;
+        }
+        return current;
     }
 
     /**
@@ -282,27 +347,26 @@ public class MyLinkedList<T> implements List<T> {
      * @return
      */
     private ListElement getElement(int index) {
-	if (isEmpty())
-	    return null;
-	ListElement current = first;
-	while (current != null) {
-	    if (index == 0)
-		return current;
-	    index--;
-	    current = current.next;
-	}
-	return null;
+        if (isEmpty())
+            return null;
+        ListElement current = first;
+        while (current != null) {
+            if (index == 0)
+                return current;
+            index--;
+            current = current.next;
+        }
+        return null;
     }
 
     public static void main(String[] args) {
-	MyLinkedList<String> ll = new MyLinkedList<String>();
-	ll.add("Hallo");
-	ll.add("Welt");
-	ll.add("Welt");
-	ll.get(0);
-	for (String s : ll) {
-	    System.out.println(s);
-	}
-
+        MyLinkedList<String> ll = new MyLinkedList<String>();
+        ll.add("Hallo");
+        ll.add("Welt");
+        ll.add("Welt");
+        ll.get(0);
+        for (String s : ll) {
+            System.out.println(s);
+        }
     }
 }
