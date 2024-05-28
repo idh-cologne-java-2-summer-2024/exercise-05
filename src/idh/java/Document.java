@@ -22,7 +22,7 @@ public class Document implements Iterable<String> {
 		Document doc = new Document();
 		doc.documentText = b.toString();
 		
-		return doc;
+		return doc; //hellö
 	}
 	
 	public String getDocumentText() {
