@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+// funktioniert bereits
+
 public class Document implements Iterable<String> {
 	String documentText;
 

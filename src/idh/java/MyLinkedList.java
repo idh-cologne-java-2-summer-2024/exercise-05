@@ -28,19 +28,41 @@ public class MyLinkedList<T> implements List<T> {
     @Override
     public int size() {
 	// TODO Implement!
-	return 0;
+    	if (first == null) {
+    		return 0;
+    	} else {
+    	int i = 0;
+    	ListElement current = first;
+    	while(current != null) {
+    		current = current.next;
+    		i++;
+    	}
+    	return i;
     }
+   }
 
     @Override
     public boolean contains(Object o) {
 	// TODO Implement!
+    	ListElement current = first;
+    	if(current.equals(o)) {
+    	return true;
+    } else {
 	return false;
+    }
     }
 
     @Override
     public boolean remove(Object o) {
 	// TODO: Implement
+    	for (int i = 0; i < ; i++) {
+    		if(current.equals(o)) {
+    		current = current.next;
+    		return true;
+    		} else {
 	return false;
+    }
+    }
     }
 
     @Override
@@ -58,6 +80,11 @@ public class MyLinkedList<T> implements List<T> {
     @Override
     public void add(int index, T element) {
 	// TODO: Implement
+    	ListElement current = first;
+    	while(current.next != null) {
+    		current = current.next;
+    	}
+    	current.next = new ListElement(element);
     }
 
     @Override
@@ -300,8 +327,10 @@ public class MyLinkedList<T> implements List<T> {
 	ll.add("Welt");
 	ll.add("Welt");
 	ll.get(0);
+	
 	for (String s : ll) {
 	    System.out.println(s);
+
 	}
 
     }
