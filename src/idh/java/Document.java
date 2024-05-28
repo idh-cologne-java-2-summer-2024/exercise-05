@@ -15,12 +15,12 @@ public class Document implements Iterable<String> {
 		FileReader fileReader = new FileReader(f);
 		int ch;
 		StringBuilder b = new StringBuilder();
-		while( (ch = fileReader.read()) != -1 ) {
-			b.append((char) ch);
+		while( (ch = fileReader.read()) != -1 ) { //-1 means end of the stream has been reached, whitespace is represented by char 32
+			b.append((char) ch);				 // add ch (cast as a character) to the stream sequence until end of stream is reached
 		}
 		fileReader.close();
 		Document doc = new Document();
-		doc.documentText = b.toString();
+		doc.documentText = b.toString(); //set document's content equal to the String Builder containing the file which has been read
 		
 		return doc;
 	}

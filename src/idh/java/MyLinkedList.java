@@ -20,50 +20,77 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     /**
-     * We only need to store the very first element of our list, because it will now
+     * We only need to store the very first element of our list, because it will know
      * whether there is a next element.
      */
     ListElement first;
 
     @Override
     public int size() {
-	// TODO Implement!
-	return 0;
+//	This should do the trick, right?
+	return this.size();
+//    int size = 0; 
+//    if(first.equals(null)) {
+//    	return -1;
+//    }
+//    if(first.next == null) {
+//    	size = 1;
+//    } else {
+//    	
+//    }
+//    return size;
+//    int last = this.lastIndexOf(first);
+//    return last;
     }
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
-	return false;
+	
+    boolean contained = false;
+    for(Object ob : this) {
+    	if(ob.equals(o)) {
+    		contained = true;
+    	} else {
+    		contained = false;
+    	}
+    }
+    return contained;
+//	return this.contains(o); //this line should already be enough, but I suppose this is not the intended way
     }
 
     @Override
     public boolean remove(Object o) {
 	// TODO: Implement
-	return false;
+//    for(Object ob : this) {
+//    	if(ob.equals(o)) {
+//    		this.remove(o);
+//    	}
+//    }
+	return this.remove(o);
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
 	// TODO Implement!
-	return false;
+    return this.addAll(this);
     }
 
     @Override
     public T set(int index, T element) {
 	// TODO: Implement
-	return null;
+	return this.set(index, element);
     }
 
     @Override
     public void add(int index, T element) {
 	// TODO: Implement
+    this.add(index, element);
     }
 
     @Override
     public T remove(int index) {
 	// TODO: Implement
-	return null;
+	return this.remove(index);
     }
 
     @Override
@@ -299,7 +326,7 @@ public class MyLinkedList<T> implements List<T> {
 	ll.add("Hallo");
 	ll.add("Welt");
 	ll.add("Welt");
-	ll.get(0);
+	System.out.println(ll.get(0));
 	for (String s : ll) {
 	    System.out.println(s);
 	}
