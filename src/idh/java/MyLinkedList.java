@@ -27,42 +27,177 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public int size() {
-	// TODO Implement!
-	return 0;
+    	int i=0;  
+    	if(first.next != null) {
+    		ListElement current=first.next;
+	    		while(current.next!=null) {
+	    		current=current.next;
+	    		i++;
+	    		}
+    	}
+		return i;
     }
 
     @Override
     public boolean contains(Object o) {
-	// TODO Implement!
-	return false;
+    	if(first.payload == o) {
+    		return true;
+    		}
+    		ListElement current=first.next;
+	    		while(current.next!=null) {
+		    		if(current.payload==o) {
+		    			return true;
+		    		}
+	    		current=current.next;
+	    		}
+	    	if(current.payload==o||current.next==null) {
+	    		return true;
+	    	}
+	    		
+	    return false;
     }
 
     @Override
     public boolean remove(Object o) {
-	// TODO: Implement
-	return false;
+    	
+    	if(first.payload == o) {
+    		first=first.next; 
+    		return true;
+    		}
+    		ListElement previous=first; 
+    		ListElement current=first.next;
+	    		while(current.next!=null) {
+		    		if(current.payload==o) {
+		    			previous.next=current.next; 
+		    			return true;
+		    		}
+		    		previous=current; 
+		    		current=current.next;
+		    		}
+	    		if (current.payload==o) {
+	    			previous.next=current.next; 
+	    			current=current.next; 
+	    			return true;
+	    		}
+	   return false;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-	// TODO Implement!
-	return false;
+    	if (this.size()>=index) {
+    		if(index==0){
+    			addAll(c);
+    			return true;
+    		}
+    		else {
+	    		ListElement current=this.first.next;
+		    	int i=0; 
+			    	while(current.next!=null) {
+			    		if(i==index) {
+			    			addAll(c);
+			    			return true;
+				    	} 
+				    current=current.next;
+				    i++;
+			    	}
+			    if (i==index && current.next==null){
+			    	addAll(c);
+			    	return true; 
+			    } 
+    		}
+    	}
+
+		return false;
     }
 
-    @Override
+   
+	@Override
     public T set(int index, T element) {
-	// TODO: Implement
-	return null;
+    	if (this.size()>=index) {
+	    	int i=0;  
+	    	if(i==index) {
+	    		first.payload=element; 
+	    		return first.payload;
+	    		}
+	    	else {
+	    		ListElement current=first.next;
+	    			i++; 
+		    		while(current.next!=null) {
+		    			if(i==index) {
+		    			current.payload=element;
+		    			return current.payload; 
+		    			}
+		    		current=current.next;
+		    		i++;
+		    		}
+		    	if (i==index && current.next==null) {
+				    current.payload=element; 
+				    return current.payload; 
+				   }
+		    	
+	    	}
+    	}
+    	return null;
     }
 
     @Override
     public void add(int index, T element) {
-	// TODO: Implement
-    }
+    	if (this.size()>=index) {
+    		if(index==0){
+    			ListElement second=this.first; 
+    			this.first.payload=element; 
+    			this.first.next=second; 
+    		}
+    		else {
+	    		ListElement previous=this.first; 
+	    		ListElement current=this.first.next;
+		    	int i=0; 
+			    	while(current.next!=null) {
+			    		if(i==index) {
+			    			ListElement newElement=new ListElement(element);
+			    			newElement.next=current; 
+			    			previous.next=newElement; 
+				    	}
+			    	previous=current; 
+				    current=current.next;
+				    i++;
+			    	}
+			    if (i==index && current.next==null){
+			    	ListElement newElement=new ListElement(element);
+	    			newElement.next=current; 
+	    			previous.next=newElement; 
+			    } 
+    		}
+    	}
+    }    
 
-    @Override
+   
+	@Override
     public T remove(int index) {
-	// TODO: Implement
+    	
+    	if (this.size()>=index) {
+    		if(index==0){
+    		 this.first=this.first.next;
+    		 return this.first.payload;
+    		}
+    		else {
+	    		ListElement previous=this.first; 
+	    		ListElement current=this.first.next;
+		    	int i=0; 
+			    	while(current.next!=null) {
+			    		if(i==index) {
+			    			previous.next=current.next;
+				    		return (T) current.payload; 
+				    	}
+			    		previous=current;
+				    	current=current.next;
+				    	i++;
+			    	}
+			    if (i==index && current.next==null) {
+			    	previous.next=null; 
+			    }
+    		}
+    	}
 	return null;
     }
 

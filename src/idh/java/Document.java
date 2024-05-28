@@ -35,9 +35,18 @@ public class Document implements Iterable<String> {
 	
 	public static final void main(String[] args) throws IOException {
 		Document d = Document.readFromFile(new File("data/dracula.txt"));
-		for(String token : d) {
-			System.out.println(token);
+//			for(String token : d) {
+//			System.out.println(token);
+//		}
+//		
+		
+		SkipIterator<String> it= new SkipIterator<String>(2, d.iterator()); 
+		while(it.hasNext()) {
+			String tokenToPrint=it.next();
+			System.out.println(tokenToPrint);
 		}
+		
+	
 	}
 
 	@Override
