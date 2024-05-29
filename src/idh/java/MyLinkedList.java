@@ -20,7 +20,7 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     /**
-     * We only need to store the very first element of our list, because it will now
+     * We only need to store the very first element of our list, because it will know
      * whether there is a next element.
      */
     ListElement first;
