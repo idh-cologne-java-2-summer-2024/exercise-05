@@ -6,8 +6,32 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
+/**
+ * Made class iterable by implement the interface Iterable<String>
+ */
 public class Document implements Iterable<String> {
 	String documentText;
+
+	/**
+	 * New class StringTokenizerIterator that wraps the StringTokenizer
+	 */
+	class StringTokenizerIterator implements Iterator<String> {
+	    StringTokenizer tokenizer;
+
+	    public StringTokenizerIterator(String text) {
+		this.tokenizer = new StringTokenizer(text);
+	    }
+
+	    @Override
+	    public boolean hasNext() {
+		return tokenizer.hasMoreTokens();
+	    }
+
+	    @Override
+	    public String next() {
+		return tokenizer.nextToken();
+	    }
+	}
 
 	public static Document readFromFile(File f) throws IOException {
 		FileReader fileReader = new FileReader(f);
@@ -41,7 +65,7 @@ public class Document implements Iterable<String> {
 		}
 		
 		i = 0;
-		SkipIterator<String> skiter = new SkipIterator<String>(d.iterator(), 2);
+		SkipIterator<String> skiter = new SkipIterator<String>(d.iterator(), 1);
 		while(skiter.hasNext()) {
 			System.out.println(i++ + ": "+ skiter.next() + " ");
 			if (i > 100)
@@ -49,23 +73,13 @@ public class Document implements Iterable<String> {
 		}
 	}
 
+	/**
+	 * Added new method iterator() to satisfy the interface.
+	 */
 	@Override
 	public Iterator<String> iterator() {
-		return new Iterator<String>() {
-
-			StringTokenizer tokenizer = new StringTokenizer(documentText);
-			
-			@Override
-			public boolean hasNext() {
-				return tokenizer.hasMoreTokens();
-			}
-
-			@Override
-			public String next() {
-				return tokenizer.nextToken();
-			}
-			
-		};
+	    // return an object of class StringTokenizerIterator
+	    return new StringTokenizerIterator(documentText);
 	}
 	
 	
