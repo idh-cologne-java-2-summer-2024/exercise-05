@@ -68,30 +68,35 @@ public class MyLinkedList<T> implements List<T> {
     public boolean addAll(int index, Collection<? extends T> c) {
 	// TODO: Implement
 
-	// Create a new linked list for the collection to be added
-	ListElement first = null, previous = null, current = null;
-
+	// Create new list elements for the collection to be added
+	ListElement firstOfNewList = null, previous = null, currentOfNewList = null;
 	// this works because Collection<T> inherits from Iterable<T>
 	for (T x : c) {
-	    current = new ListElement(x);
-	    if (first == null) {
-		first = current;
+	    currentOfNewList = new ListElement(x);
+	    if (firstOfNewList == null) {
+		firstOfNewList = currentOfNewList;
 	    } else {
-		previous.next = current;
+		previous.next = currentOfNewList;
 	    }
-	    previous = current;
+	    previous = currentOfNewList;
 	}
+	// Now firstOfNewList is the first element of the list to be inserted, and
+	// currentOfNewList is the last one
 
 	// insert the new list at the position
-	ListElement atPosition = getElement(index - 1);
-	if (atPosition == null) {
-	    return false;
+	if (index == 0) {
+	    currentOfNewList.next = first;
+	    this.first = firstOfNewList;
+	} else {
+	    ListElement atPosition = getElement(index - 1);
+	    if (atPosition == null) {
+		return false;
+	    }
+
+	    // set the pointers correctly
+	    currentOfNewList.next = atPosition.next;
+	    atPosition.next = firstOfNewList;
 	}
-
-	// set the pointers correctly
-	current.next = atPosition.next;
-	atPosition.next = first;
-
 	return true;
     }
 
@@ -127,14 +132,20 @@ public class MyLinkedList<T> implements List<T> {
     @Override
     public T remove(int index) {
 	// TODO: Implement
-	ListElement atPreviousPosition = getElement(index - 1);
+	T payloadAtFormerPosition;
+	if (index == 0) {
+	    payloadAtFormerPosition = first.payload;
+	    first = first.next;
+	} else {
+	    ListElement atPreviousPosition = getElement(index - 1);
 
-	// store the payload of the element (because we want to return it)
-	T payloadAtPreviousPosition = atPreviousPosition.next.payload;
+	    // store the payload of the element (because we want to return it)
+	    payloadAtFormerPosition = atPreviousPosition.next.payload;
 
-	// "Reroute" the pointer around the element to be removed
-	atPreviousPosition.next = atPreviousPosition.next.next;
-	return payloadAtPreviousPosition;
+	    // "Reroute" the pointer around the element to be removed
+	    atPreviousPosition.next = atPreviousPosition.next.next;
+	}
+	return payloadAtFormerPosition;
     }
 
     @Override
@@ -423,6 +434,8 @@ public class MyLinkedList<T> implements List<T> {
 	testReturn("remove()", "Hello", list.remove(1));
 	testReturn("toString()", "[Achtung,Welt]", list.toString());
 	testReturn("addAll()", true, list.addAll(1, Arrays.asList("I", "am", "an", "example")));
+	testReturn("toString()", "[Achtung,I,am,an,example,Welt]", list.toString());
+	testReturn("addAll()", true, list.addAll(0, Arrays.asList("I", "am", "an", "example")));
 	testReturn("toString()", "[Achtung,I,am,an,example,Welt]", list.toString());
 
 	list.clear();
